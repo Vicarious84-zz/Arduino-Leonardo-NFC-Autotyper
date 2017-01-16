@@ -31,22 +31,19 @@ void loop(void) {
     Serial.println("\nScan a NFC tag\n");
     if (nfc.tagPresent())
     {
-        NfcTag tag = nfc.read();
-        uid = tag.getUidString();
-        uid.replace(" ", "");
-        Serial.println(uid);
-        if (uid == "0123456789ABCD") {
-            Keyboard.write('P');
-            Keyboard.write('a');
-            Keyboard.write('s');
-            Keyboard.write('s');
-            Keyboard.write('p');
-            Keyboard.write('h');
-            Keyboard.write('r');
-            Keyboard.write('a');
-            Keyboard.write('s');
-            Keyboard.write('e');
-            Keyboard.write(KEY_RETURN);
+        NfcTag tag = nfc.read(); // Reads the RFID/NFC tag
+        uid = tag.getUidString(); // Fetches UID from the tag and save it in variable "uid"
+        Serial.println(uid); // Shows the UID of the scanned RFID/NFC tag in Serial Monitor
+        /* RFID/NFC tag with 4 byte UID */
+        if (uid == "01 23 45 67") {
+            Keyboard.print("Hello, World!"); // Sends the string "Hello, World!" to the computer
+            Keyboard.write(KEY_RETURN); // Sends Enter
+            delay(5000); //makes sure the password isn't repeated
+        }
+        /* RFID/NFC tag with 7 byte UID */
+        else if (uid == "01 23 45 67 89 AB CD") {
+            Keyboard.print("Passphrase"); // Sends the string "Passphrase" to the computer
+            Keyboard.write(KEY_RETURN); // Sends Enter
             delay(5000); //makes sure the password isn't repeated
         }
     }
